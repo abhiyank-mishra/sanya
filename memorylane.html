@@ -1,0 +1,3621 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory Lane - Birthday Memories</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #ffcee6 0%,
+          #ffd6f1 50%,
+          #e4f9ff 100%
+        );
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      .confetti {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .confetti-piece {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: #ffd1f9;
+        top: -20px;
+        opacity: 0;
+      }
+
+      .scrapbook-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff9eda' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+        opacity: 0.7;
+        z-index: -1;
+      }
+
+      .memory-lane-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 3rem;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .header h1 {
+        font-size: 3.5rem;
+        color: #ff4e91;
+        margin-bottom: 1rem;
+        font-family: "Pacifico", cursive;
+        text-shadow: 3px 3px 0px rgba(255, 165, 213, 0.5);
+        animation: heartbeat 1.5s ease-in-out infinite;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: #8858a3;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 1rem;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+      }
+
+      .gallery-container {
+        position: relative;
+        margin: 2rem 0;
+      }
+
+      .slideshow-controls {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: fadeIn 1s forwards 1s;
+      }
+
+      .btn {
+        padding: 0.8rem 1.5rem;
+        margin: 0 0.5rem;
+        background: linear-gradient(45deg, #ff6ec4, #7873f5);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(255, 110, 196, 0.5);
+      }
+
+      .btn:hover {
+        background: linear-gradient(45deg, #7873f5, #ff6ec4);
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 6px 20px rgba(255, 110, 196, 0.7);
+      }
+
+      .btn i {
+        margin-right: 0.5rem;
+      }
+
+      .gallery {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 1.5rem;
+        padding: 1.5rem 0;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+        scrollbar-color: #ff6ec4 #ffcee6;
+      }
+
+      .gallery::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .gallery::-webkit-scrollbar-track {
+        background: #ffcee6;
+        border-radius: 10px;
+      }
+
+      .gallery::-webkit-scrollbar-thumb {
+        background: #ff6ec4;
+        border-radius: 10px;
+      }
+
+      .memory-card {
+        flex: 0 0 auto;
+        width: 300px;
+        height: 400px;
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(255, 105, 180, 0.3);
+        transform: translateY(50px) rotate(var(--rotate, 0deg));
+        opacity: 0;
+        transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 8px solid white;
+      }
+
+      .memory-card.visible {
+        transform: translateY(0) rotate(var(--rotate, 0deg));
+        opacity: 1;
+      }
+
+      .memory-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .memory-card:hover .memory-img {
+        transform: scale(1.08);
+      }
+
+      .memory-caption {
+        position: absolute;
+        bottom: -100%;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 105, 180, 0.85);
+        color: white;
+        padding: 1.2rem;
+        transition: bottom 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        font-size: 1.1rem;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+      }
+
+      .memory-card:hover .memory-caption {
+        bottom: 0;
+      }
+
+      .memory-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at center,
+          transparent 50%,
+          rgba(255, 255, 255, 0.2) 100%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+      }
+
+      .memory-card:hover::before {
+        opacity: 1;
+      }
+
+      .card-tape {
+        position: absolute;
+        width: 100px;
+        height: 35px;
+        background: rgba(255, 255, 255, 0.8);
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%) rotate(var(--rotate, 2deg));
+        z-index: 2;
+        box-shadow: 0 0 10px rgba(255, 20, 147, 0.2);
+      }
+
+      .card-sticker {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        z-index: 3;
+        bottom: 10px;
+        right: 10px;
+        transform: rotate(15deg);
+        filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+        animation: bounce 2s infinite;
+      }
+
+      .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 3rem;
+      }
+
+      #nextButton {
+        background: linear-gradient(45deg, #ff4e91, #ff9a8b);
+        font-size: 1.1rem;
+        padding: 1rem 2rem;
+        position: relative;
+        overflow: hidden;
+        animation: pulse 2s infinite;
+      }
+
+      #nextButton::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(45deg);
+        animation: shine 3s infinite;
+      }
+
+      #nextButton:hover {
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(255, 78, 145, 0.5);
+      }
+
+      #backButton {
+        background: linear-gradient(45deg, #a485ff, #75c6ff);
+      }
+
+      .sticker {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        z-index: 5;
+        filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
+        pointer-events: none;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .sticker1 {
+        top: 10%;
+        left: 5%;
+        animation-delay: 0.2s;
+      }
+
+      .sticker2 {
+        bottom: 15%;
+        right: 5%;
+        animation-delay: 0.5s;
+      }
+
+      .sticker3 {
+        bottom: 30%;
+        left: 10%;
+        animation-delay: 0.8s;
+      }
+
+      .sticker4 {
+        top: 20%;
+        right: 10%;
+        animation-delay: 1.2s;
+      }
+
+      .balloon {
+        position: fixed;
+        width: 60px;
+        height: 70px;
+        background: radial-gradient(circle at 30% 30%, #ff7eb9, #ff1493);
+        border-radius: 50%;
+        box-shadow: inset -5px -5px 0 rgba(0, 0, 0, 0.1);
+        animation: floatUp 15s linear infinite;
+        z-index: -1;
+      }
+
+      .balloon::before {
+        content: "";
+        position: absolute;
+        width: 2px;
+        height: 80px;
+        background: rgba(0, 0, 0, 0.2);
+        top: 100%;
+        left: 50%;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(5deg);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: scale(1) rotate(15deg);
+        }
+        50% {
+          transform: scale(1.2) rotate(20deg);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes scaleIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          box-shadow: 0 4px 15px rgba(255, 110, 196, 0.5);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow: 0 10px 25px rgba(255, 110, 196, 0.7);
+        }
+        100% {
+          transform: scale(1);
+          box-shadow: 0 4px 15px rgba(255, 110, 196, 0.5);
+        }
+      }
+
+      @keyframes shine {
+        0% {
+          left: -100%;
+          opacity: 0;
+        }
+        20% {
+          left: 100%;
+          opacity: 0.6;
+        }
+        100% {
+          left: 100%;
+          opacity: 0;
+        }
+      }
+
+      @keyframes heartbeat {
+        0% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.05);
+        }
+        50% {
+          transform: scale(1);
+        }
+        75% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes floatDown {
+        0% {
+          transform: translateY(-10px) rotate(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 2.5rem;
+        }
+
+        .memory-card {
+          width: 250px;
+          height: 330px;
+        }
+
+        .gallery {
+          gap: 1rem;
+          justify-content: center;
+        }
+
+        .sticker {
+          width: 45px;
+          height: 45px;
+        }
+        
+        .memory-lane-container {
+          padding: 1rem;
+        }
+        
+        .message {
+          width: 90%;
+          padding: 15px;
+          font-size: 16px;
+        }
+        
+        .navigation-buttons {
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 20px;
+          justify-content: center;
+        }
+        
+        .btn {
+          padding: 10px 15px;
+          font-size: 15px;
+          margin: 5px;
+        }
+        
+
+        .navigation-buttons {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .slideshow-controls {
+          flex-wrap: wrap;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header h1 {
+          font-size: 2rem;
+        }
+        
+        .memory-card {
+          width: 220px;
+          height: 300px;
+        }
+        
+        .memory-content h3 {
+          font-size: 1.1rem;
+        }
+        
+        .memory-content p {
+          font-size: 0.9rem;
+        }
+        
+        .navigation-buttons .nav-btn {
+          padding: 0.6rem 1.2rem;
+          font-size: 0.9rem;
+        }
+        
+        .sticker {
+          width: 35px;
+          height: 35px;
+        }
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .memory-card {
+          width: 220px;
+          height: 300px;
+        }
+
+        .navigation-buttons {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: center;
+        }
+
+        .btn {
+          width: 100%;
+          max-width: 200px;
+        }
+      }
+    </style>
+    <script
+      bis_use="true"
+      type="text/javascript"
+      charset="utf-8"
+      data-bis-config='["facebook.com/","twitter.com/","youtube-nocookie.com/embed/","//vk.com/","//www.vk.com/","linkedin.com/","//www.linkedin.com/","//instagram.com/","//www.instagram.com/","//www.google.com/recaptcha/api2/","//hangouts.google.com/webchat/","//www.google.com/calendar/","//www.google.com/maps/embed","spotify.com/","soundcloud.com/","//player.vimeo.com/","//disqus.com/","//tgwidget.com/","//js.driftt.com/","friends2follow.com","/widget","login","//video.bigmir.net/","blogger.com","//smartlock.google.com/","//keep.google.com/","/web.tolstoycomments.com/","moz-extension://","chrome-extension://","/auth/","//analytics.google.com/","adclarity.com","paddle.com/checkout","hcaptcha.com","recaptcha.net","2captcha.com","accounts.google.com","www.google.com/shopping/customerreviews","buy.tinypass.com","gstatic.com","secureir.ebaystatic.com","docs.google.com","contacts.google.com","github.com","mail.google.com","chat.google.com","audio.xpleer.com","keepa.com","static.xx.fbcdn.net","sas.selleramp.com","1plus1.video","console.googletagservices.com","//lnkd.demdex.net/","//radar.cedexis.com/","//li.protechts.net/","challenges.cloudflare.com/","ogs.google.com"]'
+      src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/traffic.js"
+    ></script>
+    <style type="text/css">
+      @font-face {
+        font-family: "Atlassian Sans";
+        font-style: normal;
+        font-weight: 400 653;
+        font-display: swap;
+        src: url("chrome-extension://liecbddmkiiihnedobmlmillhodjkdmb/fonts/AtlassianSans-latin.woff2")
+          format("woff2");
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+          U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+          U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+    </style>
+  </head>
+  <body
+    __processed_8f192fbf-a0ce-4632-9977-63aaa713b3a5__="true"
+    bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJkaXNhYmxlZCIsIkZBQ0VCT09LIjoiZGlzYWJsZWQiLCJUV0lUVEVSIjoiZGlzYWJsZWQiLCJSRURESVQiOiJkaXNhYmxlZCIsIlBJTlRFUkVTVCI6ImRpc2FibGVkIiwiSU5TVEFHUkFNIjoiZGlzYWJsZWQiLCJMSU5LRURJTiI6ImRpc2FibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMC4yMiIsInNjb3JlIjoyMDAyMn1d"
+    data-new-gr-c-s-check-loaded="14.1235.0"
+    data-gr-ext-installed=""
+  >
+    <div class="scrapbook-bg" bis_skin_checked="1"></div>
+    <div class="confetti" id="confetti-container" bis_skin_checked="1">
+      <div
+        class="confetti-piece"
+        style="
+          left: 73.1vw;
+          width: 9.78315px;
+          height: 18.7823px;
+          background: rgb(117, 198, 255);
+          border-radius: 0px;
+          transform: rotate(81.4032deg);
+          animation: 5.94212s ease-in 3.30796s infinite normal none running
+            floatDown;
+          opacity: 0.0224759;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 4.12838vw;
+          width: 14.746px;
+          height: 12.5621px;
+          background: rgb(164, 133, 255);
+          border-radius: 50%;
+          transform: rotate(301.771deg);
+          animation: 4.76039s ease-in 2.59294s infinite normal none running
+            floatDown;
+          opacity: 0.122713;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 26.2592vw;
+          width: 18.4553px;
+          height: 7.95549px;
+          background: rgb(164, 133, 255);
+          border-radius: 50%;
+          transform: rotate(277.529deg);
+          animation: 5.06463s ease-in 3.73723s infinite normal none running
+            floatDown;
+          opacity: 0.739092;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 28.6426vw;
+          width: 7.24178px;
+          height: 7.48802px;
+          background: rgb(164, 133, 255);
+          border-radius: 0px;
+          transform: rotate(318.371deg);
+          animation: 4.60723s ease-in 3.63231s infinite normal none running
+            floatDown;
+          opacity: 0.452674;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 2.16337vw;
+          width: 10.6397px;
+          height: 10.8508px;
+          background: rgb(255, 110, 196);
+          border-radius: 0px;
+          transform: rotate(133.538deg);
+          animation: 3.0797s ease-in 1.75742s infinite normal none running
+            floatDown;
+          opacity: 0.946169;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 56.0123vw;
+          width: 10.0958px;
+          height: 7.84893px;
+          background: rgb(255, 110, 196);
+          border-radius: 0px;
+          transform: rotate(232.099deg);
+          animation: 4.2071s ease-in 3.50317s infinite normal none running
+            floatDown;
+          opacity: 0.00925038;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 62.6152vw;
+          width: 14.1269px;
+          height: 10.4152px;
+          background: rgb(117, 198, 255);
+          border-radius: 50%;
+          transform: rotate(67.9223deg);
+          animation: 3.06907s ease-in 2.55745s infinite normal none running
+            floatDown;
+          opacity: 0.762482;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 26.6701vw;
+          width: 13.9271px;
+          height: 10.2823px;
+          background: rgb(164, 133, 255);
+          border-radius: 50%;
+          transform: rotate(356.706deg);
+          animation: 3.06903s ease-in 2.71125s infinite normal none running
+            floatDown;
+          opacity: 0.423462;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 37.6885vw;
+          width: 15.1486px;
+          height: 8.14025px;
+          background: rgb(193, 117, 255);
+          border-radius: 0px;
+          transform: rotate(75.6686deg);
+          animation: 5.60874s ease-in 4.05942s infinite normal none running
+            floatDown;
+          opacity: 0.449172;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 97.4326vw;
+          width: 7.97111px;
+          height: 6.96394px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(120.069deg);
+          animation: 3.50148s ease-in 2.72675s infinite normal none running
+            floatDown;
+          opacity: 0.0830528;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 83.3442vw;
+          width: 9.2184px;
+          height: 10.0451px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(67.9596deg);
+          animation: 3.9124s ease-in 1.32073s infinite normal none running
+            floatDown;
+          opacity: 0.146468;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 72.8882vw;
+          width: 10.3275px;
+          height: 13.0359px;
+          background: rgb(164, 133, 255);
+          border-radius: 50%;
+          transform: rotate(238.08deg);
+          animation: 4.85031s ease-in 3.71036s infinite normal none running
+            floatDown;
+          opacity: 0.727033;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 49.8868vw;
+          width: 12.935px;
+          height: 5.16902px;
+          background: rgb(193, 117, 255);
+          border-radius: 0px;
+          transform: rotate(168.969deg);
+          animation: 5.6766s ease-in 0.65523s infinite normal none running
+            floatDown;
+          opacity: 0.767117;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 46.718vw;
+          width: 11.9517px;
+          height: 18.8953px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(345.671deg);
+          animation: 5.19626s ease-in 0.76849s infinite normal none running
+            floatDown;
+          opacity: 0.124745;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 93.7297vw;
+          width: 11.8522px;
+          height: 8.16429px;
+          background: rgb(193, 117, 255);
+          border-radius: 0px;
+          transform: rotate(234deg);
+          animation: 3.43518s ease-in 2.763s infinite normal none running
+            floatDown;
+          opacity: 0.924708;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 79.0133vw;
+          width: 18.1939px;
+          height: 13.7691px;
+          background: rgb(117, 198, 255);
+          border-radius: 50%;
+          transform: rotate(290.821deg);
+          animation: 3.68365s ease-in 3.51232s infinite normal none running
+            floatDown;
+          opacity: 0.840167;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 54.9456vw;
+          width: 7.85912px;
+          height: 19.6704px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(194.418deg);
+          animation: 5.61562s ease-in 1.12188s infinite normal none running
+            floatDown;
+          opacity: 0.0479268;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 42.131vw;
+          width: 15.7556px;
+          height: 14.4003px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(151.134deg);
+          animation: 3.55548s ease-in 1.51912s infinite normal none running
+            floatDown;
+          opacity: 0.546164;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 8.13716vw;
+          width: 14.2264px;
+          height: 6.78976px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(201.071deg);
+          animation: 5.93845s ease-in 4.01238s infinite normal none running
+            floatDown;
+          opacity: 0.243765;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 57.5909vw;
+          width: 16.1395px;
+          height: 6.46945px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(85.8685deg);
+          animation: 3.05253s ease-in 0.00868036s infinite normal none running
+            floatDown;
+          opacity: 0.87644;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 23.6365vw;
+          width: 14.699px;
+          height: 14.8872px;
+          background: rgb(193, 117, 255);
+          border-radius: 0px;
+          transform: rotate(122.532deg);
+          animation: 4.43254s ease-in 3.52884s infinite normal none running
+            floatDown;
+          opacity: 0.929462;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 11.2389vw;
+          width: 15.4876px;
+          height: 9.44995px;
+          background: rgb(255, 78, 145);
+          border-radius: 50%;
+          transform: rotate(323.236deg);
+          animation: 5.83716s ease-in 1.35885s infinite normal none running
+            floatDown;
+          opacity: 0.962824;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 71.1658vw;
+          width: 15.1594px;
+          height: 15.9886px;
+          background: rgb(255, 110, 196);
+          border-radius: 0px;
+          transform: rotate(19.4279deg);
+          animation: 5.75139s ease-in 4.1036s infinite normal none running
+            floatDown;
+          opacity: 0.656226;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 6.31476vw;
+          width: 11.585px;
+          height: 15.5502px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(159.21deg);
+          animation: 4.68337s ease-in 1.15519s infinite normal none running
+            floatDown;
+          opacity: 0.813592;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 30.825vw;
+          width: 12.161px;
+          height: 6.74255px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(64.162deg);
+          animation: 5.88122s ease-in 1.13431s infinite normal none running
+            floatDown;
+          opacity: 0.147209;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 33.6038vw;
+          width: 12.1706px;
+          height: 17.3327px;
+          background: rgb(164, 133, 255);
+          border-radius: 50%;
+          transform: rotate(303.477deg);
+          animation: 5.33848s ease-in 4.86782s infinite normal none running
+            floatDown;
+          opacity: 0.830581;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 57.8983vw;
+          width: 15.5981px;
+          height: 9.43348px;
+          background: rgb(164, 133, 255);
+          border-radius: 0px;
+          transform: rotate(186.682deg);
+          animation: 5.37946s ease-in 4.42348s infinite normal none running
+            floatDown;
+          opacity: 0.426087;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 7.09568vw;
+          width: 18.9405px;
+          height: 13.7397px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(60.3407deg);
+          animation: 4.3027s ease-in 3.5341s infinite normal none running
+            floatDown;
+          opacity: 0.0282678;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 63.5512vw;
+          width: 12.8592px;
+          height: 10.4241px;
+          background: rgb(255, 110, 196);
+          border-radius: 0px;
+          transform: rotate(208.008deg);
+          animation: 4.77944s ease-in 0.307176s infinite normal none running
+            floatDown;
+          opacity: 0.851718;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 87.0631vw;
+          width: 5.06846px;
+          height: 19.7252px;
+          background: rgb(255, 78, 145);
+          border-radius: 50%;
+          transform: rotate(164.14deg);
+          animation: 4.95883s ease-in 2.59697s infinite normal none running
+            floatDown;
+          opacity: 0.528139;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 35.6563vw;
+          width: 15.7445px;
+          height: 19.9598px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(261.852deg);
+          animation: 3.97959s ease-in 4.66754s infinite normal none running
+            floatDown;
+          opacity: 0.265806;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 33.0908vw;
+          width: 7.79843px;
+          height: 6.01501px;
+          background: rgb(117, 198, 255);
+          border-radius: 0px;
+          transform: rotate(191.569deg);
+          animation: 5.85621s ease-in 4.30377s infinite normal none running
+            floatDown;
+          opacity: 0.614928;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 80.4586vw;
+          width: 12.4072px;
+          height: 5.98401px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(206.771deg);
+          animation: 3.99829s ease-in 4.86004s infinite normal none running
+            floatDown;
+          opacity: 0.557495;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 25.2887vw;
+          width: 14.4871px;
+          height: 5.55542px;
+          background: rgb(164, 133, 255);
+          border-radius: 0px;
+          transform: rotate(22.7743deg);
+          animation: 5.5517s ease-in 0.574294s infinite normal none running
+            floatDown;
+          opacity: 0.287445;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 90.5748vw;
+          width: 9.98141px;
+          height: 16.9506px;
+          background: rgb(164, 133, 255);
+          border-radius: 0px;
+          transform: rotate(172.315deg);
+          animation: 3.013s ease-in 2.87918s infinite normal none running
+            floatDown;
+          opacity: 0.137297;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 41.3232vw;
+          width: 10.8489px;
+          height: 19.9915px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(73.4611deg);
+          animation: 3.64971s ease-in 4.72105s infinite normal none running
+            floatDown;
+          opacity: 0.221861;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 61.1045vw;
+          width: 12.1401px;
+          height: 5.35911px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(279.369deg);
+          animation: 5.80783s ease-in 4.32747s infinite normal none running
+            floatDown;
+          opacity: 0.858473;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 27.9993vw;
+          width: 12.1852px;
+          height: 14.8465px;
+          background: rgb(255, 78, 145);
+          border-radius: 50%;
+          transform: rotate(344.479deg);
+          animation: 3.40976s ease-in 2.56924s infinite normal none running
+            floatDown;
+          opacity: 0.0103277;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 61.3057vw;
+          width: 6.9263px;
+          height: 18.1413px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(273.923deg);
+          animation: 5.36741s ease-in 2.31404s infinite normal none running
+            floatDown;
+          opacity: 0.921428;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 95.6705vw;
+          width: 10.9112px;
+          height: 17.0662px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(301.856deg);
+          animation: 5.29764s ease-in 3.85773s infinite normal none running
+            floatDown;
+          opacity: 0.712733;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 65.464vw;
+          width: 5.32722px;
+          height: 15.6436px;
+          background: rgb(255, 78, 145);
+          border-radius: 50%;
+          transform: rotate(66.1388deg);
+          animation: 4.32017s ease-in 1.61717s infinite normal none running
+            floatDown;
+          opacity: 0.395134;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 53.7672vw;
+          width: 14.6347px;
+          height: 10.1722px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(290.651deg);
+          animation: 3.0858s ease-in 3.81976s infinite normal none running
+            floatDown;
+          opacity: 0.547282;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 7.56373vw;
+          width: 17.5348px;
+          height: 12.5323px;
+          background: rgb(117, 198, 255);
+          border-radius: 50%;
+          transform: rotate(6.4635deg);
+          animation: 3.02163s ease-in 2.1126s infinite normal none running
+            floatDown;
+          opacity: 0.904226;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 39.2924vw;
+          width: 14.9889px;
+          height: 9.97417px;
+          background: rgb(193, 117, 255);
+          border-radius: 0px;
+          transform: rotate(23.3574deg);
+          animation: 4.38434s ease-in 1.91331s infinite normal none running
+            floatDown;
+          opacity: 0.516434;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 43.8031vw;
+          width: 17.5543px;
+          height: 16.8167px;
+          background: rgb(117, 198, 255);
+          border-radius: 0px;
+          transform: rotate(232.939deg);
+          animation: 5.35893s ease-in 2.52289s infinite normal none running
+            floatDown;
+          opacity: 0.397675;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 42.2318vw;
+          width: 7.40107px;
+          height: 6.11769px;
+          background: rgb(255, 110, 196);
+          border-radius: 0px;
+          transform: rotate(304.038deg);
+          animation: 3.25828s ease-in 3.82454s infinite normal none running
+            floatDown;
+          opacity: 0.720027;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 26.2537vw;
+          width: 10.4408px;
+          height: 9.02143px;
+          background: rgb(117, 198, 255);
+          border-radius: 50%;
+          transform: rotate(6.88504deg);
+          animation: 3.53114s ease-in 3.63555s infinite normal none running
+            floatDown;
+          opacity: 0.0279151;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 35.8246vw;
+          width: 17.3367px;
+          height: 15.7342px;
+          background: rgb(164, 133, 255);
+          border-radius: 50%;
+          transform: rotate(65.4346deg);
+          animation: 4.60844s ease-in 1.97799s infinite normal none running
+            floatDown;
+          opacity: 0.362549;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 52.514vw;
+          width: 8.14828px;
+          height: 17.1377px;
+          background: rgb(255, 110, 196);
+          border-radius: 0px;
+          transform: rotate(261.078deg);
+          animation: 4.57598s ease-in 0.962508s infinite normal none running
+            floatDown;
+          opacity: 0.524825;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 83.8503vw;
+          width: 12.2358px;
+          height: 18.7118px;
+          background: rgb(255, 78, 145);
+          border-radius: 50%;
+          transform: rotate(138.632deg);
+          animation: 4.27975s ease-in 3.04347s infinite normal none running
+            floatDown;
+          opacity: 0.475791;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 69.2992vw;
+          width: 7.19083px;
+          height: 18.0125px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(122.267deg);
+          animation: 5.21057s ease-in 3.45s infinite normal none running
+            floatDown;
+          opacity: 0.364632;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 31.7175vw;
+          width: 5.88381px;
+          height: 6.11214px;
+          background: rgb(164, 133, 255);
+          border-radius: 50%;
+          transform: rotate(35.0362deg);
+          animation: 4.93774s ease-in 2.29683s infinite normal none running
+            floatDown;
+          opacity: 0.298295;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 13.4873vw;
+          width: 11.6782px;
+          height: 7.55964px;
+          background: rgb(164, 133, 255);
+          border-radius: 50%;
+          transform: rotate(143.19deg);
+          animation: 4.26533s ease-in 1.79918s infinite normal none running
+            floatDown;
+          opacity: 0.0462625;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 52.6892vw;
+          width: 11.5826px;
+          height: 9.53958px;
+          background: rgb(117, 198, 255);
+          border-radius: 50%;
+          transform: rotate(114.864deg);
+          animation: 4.42442s ease-in 2.1513s infinite normal none running
+            floatDown;
+          opacity: 0.697792;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 56.136vw;
+          width: 11.4951px;
+          height: 16.8441px;
+          background: rgb(193, 117, 255);
+          border-radius: 50%;
+          transform: rotate(351.763deg);
+          animation: 4.55834s ease-in 4.98144s infinite normal none running
+            floatDown;
+          opacity: 0.850251;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 37.565vw;
+          width: 17.2574px;
+          height: 9.23746px;
+          background: rgb(117, 198, 255);
+          border-radius: 0px;
+          transform: rotate(321.854deg);
+          animation: 3.30071s ease-in 3.01744s infinite normal none running
+            floatDown;
+          opacity: 0.520483;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 61.8823vw;
+          width: 6.78213px;
+          height: 12.8773px;
+          background: rgb(164, 133, 255);
+          border-radius: 0px;
+          transform: rotate(255.865deg);
+          animation: 5.1133s ease-in 3.47442s infinite normal none running
+            floatDown;
+          opacity: 0.546561;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 36.1642vw;
+          width: 11.9359px;
+          height: 8.98283px;
+          background: rgb(193, 117, 255);
+          border-radius: 50%;
+          transform: rotate(232.476deg);
+          animation: 4.80283s ease-in 4.75377s infinite normal none running
+            floatDown;
+          opacity: 0.721584;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 21.5208vw;
+          width: 19.9502px;
+          height: 6.49865px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(293.374deg);
+          animation: 5.59744s ease-in 3.79145s infinite normal none running
+            floatDown;
+          opacity: 0.653756;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 69.2414vw;
+          width: 10.2398px;
+          height: 15.1908px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(220.433deg);
+          animation: 5.92729s ease-in 3.13514s infinite normal none running
+            floatDown;
+          opacity: 0.244635;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 6.63052vw;
+          width: 13.2007px;
+          height: 12.8513px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(250.442deg);
+          animation: 4.91956s ease-in 3.97438s infinite normal none running
+            floatDown;
+          opacity: 0.54279;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 9.16956vw;
+          width: 15.7467px;
+          height: 13.0183px;
+          background: rgb(193, 117, 255);
+          border-radius: 50%;
+          transform: rotate(193.042deg);
+          animation: 4.56643s ease-in 3.63572s infinite normal none running
+            floatDown;
+          opacity: 0.251374;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 76.6987vw;
+          width: 19.9809px;
+          height: 7.82303px;
+          background: rgb(255, 110, 196);
+          border-radius: 0px;
+          transform: rotate(200.5deg);
+          animation: 5.47394s ease-in 1.44073s infinite normal none running
+            floatDown;
+          opacity: 0.00114889;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 79.0438vw;
+          width: 16.1735px;
+          height: 16.8908px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(8.80962deg);
+          animation: 3.11684s ease-in 3.68671s infinite normal none running
+            floatDown;
+          opacity: 0.773354;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 97.9065vw;
+          width: 9.18204px;
+          height: 18.9393px;
+          background: rgb(255, 110, 196);
+          border-radius: 0px;
+          transform: rotate(53.4943deg);
+          animation: 3.17385s ease-in 1.00267s infinite normal none running
+            floatDown;
+          opacity: 0.420189;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 87.943vw;
+          width: 17.3269px;
+          height: 15.5701px;
+          background: rgb(117, 198, 255);
+          border-radius: 0px;
+          transform: rotate(14.231deg);
+          animation: 4.6714s ease-in 1.50097s infinite normal none running
+            floatDown;
+          opacity: 0.92601;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 13.1173vw;
+          width: 15.4873px;
+          height: 6.67756px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(121.339deg);
+          animation: 4.85932s ease-in 4.73983s infinite normal none running
+            floatDown;
+          opacity: 0.577851;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 43.5068vw;
+          width: 16.847px;
+          height: 5.67564px;
+          background: rgb(117, 198, 255);
+          border-radius: 0px;
+          transform: rotate(111.507deg);
+          animation: 3.61271s ease-in 4.55325s infinite normal none running
+            floatDown;
+          opacity: 0.12772;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 84.4726vw;
+          width: 14.8207px;
+          height: 7.76373px;
+          background: rgb(117, 198, 255);
+          border-radius: 50%;
+          transform: rotate(240.422deg);
+          animation: 5.09905s ease-in 1.68721s infinite normal none running
+            floatDown;
+          opacity: 0.878254;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 53.8303vw;
+          width: 6.93px;
+          height: 17.9337px;
+          background: rgb(193, 117, 255);
+          border-radius: 50%;
+          transform: rotate(355.905deg);
+          animation: 3.83341s ease-in 3.12883s infinite normal none running
+            floatDown;
+          opacity: 0.592749;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 46.2804vw;
+          width: 15.3311px;
+          height: 5.58709px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(116.893deg);
+          animation: 4.5642s ease-in 2.57165s infinite normal none running
+            floatDown;
+          opacity: 0.770968;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 38.327vw;
+          width: 19.5067px;
+          height: 11.6118px;
+          background: rgb(117, 198, 255);
+          border-radius: 50%;
+          transform: rotate(2.55253deg);
+          animation: 5.03322s ease-in 2.2676s infinite normal none running
+            floatDown;
+          opacity: 0.763358;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 73.3235vw;
+          width: 11.1225px;
+          height: 10.6569px;
+          background: rgb(164, 133, 255);
+          border-radius: 50%;
+          transform: rotate(11.9532deg);
+          animation: 5.8652s ease-in 0.15227s infinite normal none running
+            floatDown;
+          opacity: 0.11822;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 83.2849vw;
+          width: 17.7958px;
+          height: 5.60484px;
+          background: rgb(255, 110, 196);
+          border-radius: 0px;
+          transform: rotate(343.862deg);
+          animation: 3.82998s ease-in 3.62465s infinite normal none running
+            floatDown;
+          opacity: 0.880473;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 20.6849vw;
+          width: 15.9113px;
+          height: 6.64384px;
+          background: rgb(164, 133, 255);
+          border-radius: 50%;
+          transform: rotate(195.756deg);
+          animation: 4.20468s ease-in 1.17806s infinite normal none running
+            floatDown;
+          opacity: 0.00179009;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 82.0877vw;
+          width: 9.25114px;
+          height: 11.7249px;
+          background: rgb(255, 110, 196);
+          border-radius: 0px;
+          transform: rotate(164.464deg);
+          animation: 3.62393s ease-in 1.44373s infinite normal none running
+            floatDown;
+          opacity: 0.888896;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 46.0686vw;
+          width: 6.01463px;
+          height: 8.91612px;
+          background: rgb(193, 117, 255);
+          border-radius: 50%;
+          transform: rotate(31.1659deg);
+          animation: 3.90445s ease-in 0.804335s infinite normal none running
+            floatDown;
+          opacity: 0.553058;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 64.7884vw;
+          width: 7.33327px;
+          height: 11.7574px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(196.222deg);
+          animation: 3.3751s ease-in 1.8198s infinite normal none running
+            floatDown;
+          opacity: 0.715684;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 4.30752vw;
+          width: 14.8324px;
+          height: 16.5699px;
+          background: rgb(193, 117, 255);
+          border-radius: 0px;
+          transform: rotate(333.615deg);
+          animation: 4.67566s ease-in 2.92412s infinite normal none running
+            floatDown;
+          opacity: 0.186938;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 84.0766vw;
+          width: 17.2702px;
+          height: 16.6605px;
+          background: rgb(193, 117, 255);
+          border-radius: 0px;
+          transform: rotate(170.675deg);
+          animation: 5.2991s ease-in 4.7694s infinite normal none running
+            floatDown;
+          opacity: 0.892295;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 36.879vw;
+          width: 13.4543px;
+          height: 8.15843px;
+          background: rgb(255, 78, 145);
+          border-radius: 50%;
+          transform: rotate(201.4deg);
+          animation: 3.73535s ease-in 3.9877s infinite normal none running
+            floatDown;
+          opacity: 0.403594;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 83.4286vw;
+          width: 19.5664px;
+          height: 16.2509px;
+          background: rgb(255, 78, 145);
+          border-radius: 50%;
+          transform: rotate(65.9403deg);
+          animation: 5.51238s ease-in 0.27089s infinite normal none running
+            floatDown;
+          opacity: 0.576016;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 41.3386vw;
+          width: 19.0621px;
+          height: 7.03646px;
+          background: rgb(193, 117, 255);
+          border-radius: 0px;
+          transform: rotate(356.762deg);
+          animation: 3.19825s ease-in 2.18203s infinite normal none running
+            floatDown;
+          opacity: 0.8313;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 52.4589vw;
+          width: 12.862px;
+          height: 16.3061px;
+          background: rgb(164, 133, 255);
+          border-radius: 0px;
+          transform: rotate(266.949deg);
+          animation: 3.51142s ease-in 4.89071s infinite normal none running
+            floatDown;
+          opacity: 0.719471;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 79.2545vw;
+          width: 9.61566px;
+          height: 11.8442px;
+          background: rgb(255, 78, 145);
+          border-radius: 50%;
+          transform: rotate(32.9633deg);
+          animation: 4.89997s ease-in 2.6514s infinite normal none running
+            floatDown;
+          opacity: 0.928323;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 97.0602vw;
+          width: 19.3502px;
+          height: 18.9854px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(303.876deg);
+          animation: 5.94298s ease-in 3.86378s infinite normal none running
+            floatDown;
+          opacity: 0.109694;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 73.4922vw;
+          width: 14.5915px;
+          height: 7.09818px;
+          background: rgb(117, 198, 255);
+          border-radius: 50%;
+          transform: rotate(66.3023deg);
+          animation: 5.15204s ease-in 4.25145s infinite normal none running
+            floatDown;
+          opacity: 0.275569;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 18.3269vw;
+          width: 13.7096px;
+          height: 13.3806px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(82.2743deg);
+          animation: 3.03537s ease-in 2.7593s infinite normal none running
+            floatDown;
+          opacity: 0.596088;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 96.5513vw;
+          width: 18.6452px;
+          height: 19.6069px;
+          background: rgb(193, 117, 255);
+          border-radius: 50%;
+          transform: rotate(4.70975deg);
+          animation: 5.70019s ease-in 4.52384s infinite normal none running
+            floatDown;
+          opacity: 0.424846;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 11.0676vw;
+          width: 17.9539px;
+          height: 18.5551px;
+          background: rgb(255, 110, 196);
+          border-radius: 0px;
+          transform: rotate(298.551deg);
+          animation: 5.19101s ease-in 1.17332s infinite normal none running
+            floatDown;
+          opacity: 0.416368;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 77.652vw;
+          width: 14.8759px;
+          height: 7.72019px;
+          background: rgb(164, 133, 255);
+          border-radius: 0px;
+          transform: rotate(151.391deg);
+          animation: 5.49316s ease-in 1.2387s infinite normal none running
+            floatDown;
+          opacity: 0.950981;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 54.3666vw;
+          width: 7.3186px;
+          height: 7.39366px;
+          background: rgb(193, 117, 255);
+          border-radius: 0px;
+          transform: rotate(103.761deg);
+          animation: 5.12622s ease-in 3.66726s infinite normal none running
+            floatDown;
+          opacity: 0.925698;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 13.6579vw;
+          width: 7.14266px;
+          height: 12.2269px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(234.872deg);
+          animation: 4.75716s ease-in 3.55536s infinite normal none running
+            floatDown;
+          opacity: 0.0725305;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 68.3146vw;
+          width: 15.0143px;
+          height: 16.6833px;
+          background: rgb(117, 198, 255);
+          border-radius: 50%;
+          transform: rotate(47.1343deg);
+          animation: 4.60641s ease-in 0.59763s infinite normal none running
+            floatDown;
+          opacity: 0.134973;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 44.6888vw;
+          width: 6.97969px;
+          height: 8.90744px;
+          background: rgb(117, 198, 255);
+          border-radius: 0px;
+          transform: rotate(347.456deg);
+          animation: 5.98991s ease-in 4.04752s infinite normal none running
+            floatDown;
+          opacity: 0.0987399;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 30.1479vw;
+          width: 5.05605px;
+          height: 16.3447px;
+          background: rgb(255, 78, 145);
+          border-radius: 50%;
+          transform: rotate(137.902deg);
+          animation: 5.28565s ease-in 0.850673s infinite normal none running
+            floatDown;
+          opacity: 0.154908;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 97.8177vw;
+          width: 6.92732px;
+          height: 19.2302px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(208.058deg);
+          animation: 5.16823s ease-in 3.66323s infinite normal none running
+            floatDown;
+          opacity: 0.782797;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 42.2545vw;
+          width: 6.34008px;
+          height: 15.4058px;
+          background: rgb(193, 117, 255);
+          border-radius: 50%;
+          transform: rotate(61.1505deg);
+          animation: 4.83429s ease-in 4.03558s infinite normal none running
+            floatDown;
+          opacity: 0.355819;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 84.6128vw;
+          width: 19.1075px;
+          height: 7.77213px;
+          background: rgb(255, 78, 145);
+          border-radius: 0px;
+          transform: rotate(112.072deg);
+          animation: 5.5424s ease-in 2.76759s infinite normal none running
+            floatDown;
+          opacity: 0.528773;
+        "
+        bis_skin_checked="1"
+      ></div>
+      <div
+        class="confetti-piece"
+        style="
+          left: 19.6256vw;
+          width: 7.95737px;
+          height: 7.00475px;
+          background: rgb(255, 110, 196);
+          border-radius: 50%;
+          transform: rotate(71.8279deg);
+          animation: 3.74802s ease-in 4.00686s infinite normal none running
+            floatDown;
+          opacity: 0.189684;
+        "
+        bis_skin_checked="1"
+      ></div>
+    </div>
+
+    <!-- Balloons -->
+    <div
+      class="balloon"
+      style="left: 10%; animation-duration: 18s"
+      bis_skin_checked="1"
+    ></div>
+    <div
+      class="balloon"
+      style="left: 20%; animation-duration: 15s; animation-delay: 2s"
+      bis_skin_checked="1"
+    ></div>
+    <div
+      class="balloon"
+      style="left: 70%; animation-duration: 20s; animation-delay: 5s"
+      bis_skin_checked="1"
+    ></div>
+    <div
+      class="balloon"
+      style="left: 85%; animation-duration: 17s; animation-delay: 1s"
+      bis_skin_checked="1"
+    ></div>
+    <div
+      class="balloon"
+      style="left: 40%; animation-duration: 22s; animation-delay: 7s"
+      bis_skin_checked="1"
+    ></div>
+
+    <!-- Decorative Stickers -->
+    <img
+      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23ff6ec4' /%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' text-anchor='middle' fill='white'%3E✨%3C/text%3E%3C/svg%3E"
+      class="sticker sticker1"
+      alt="Decorative sticker"
+      style="
+        translate: none;
+        rotate: none;
+        scale: none;
+        transform: translate3d(0px, 0px, 0px) rotate(-6.7813deg);
+      "
+    />
+
+    <img
+      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23a485ff' /%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' text-anchor='middle' fill='white'%3E♥%3C/text%3E%3C/svg%3E"
+      class="sticker sticker2"
+      alt="Decorative sticker"
+      style="
+        translate: none;
+        rotate: none;
+        scale: none;
+        transform: translate3d(0px, 0px, 0px) rotate(3.9802deg);
+      "
+    />
+
+    <img
+      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23ff4e91' /%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' text-anchor='middle' fill='white'%3E★%3C/text%3E%3C/svg%3E"
+      class="sticker sticker3"
+      alt="Decorative sticker"
+      style="
+        translate: none;
+        rotate: none;
+        scale: none;
+        transform: translate3d(0px, 0px, 0px) rotate(0.0085deg);
+      "
+    />
+
+    <img
+      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23c175ff' d='M50 0 L75 25 L100 0 L75 50 L100 100 L50 75 L0 100 L25 50 L0 0 L25 25 Z' /%3E%3C/svg%3E"
+      class="sticker sticker4"
+      alt="Decorative sticker"
+      style="
+        translate: none;
+        rotate: none;
+        scale: none;
+        transform: translate3d(0px, 0px, 0px) rotate(9.2246deg);
+      "
+    />
+
+    <div class="memory-lane-container" bis_skin_checked="1">
+      <div
+        class="header"
+        style="
+          translate: none;
+          rotate: none;
+          scale: none;
+          opacity: 1;
+          transform: translate(0px, -0.0214px) rotate(0.01089deg);
+        "
+        bis_skin_checked="1"
+      >
+        <h1>Our Memory Lane</h1>
+        <p>
+          Sanya yaha Apni kuch purani Memories hai jo ki humne saath me
+          banayi thi. Apna bo milna or fir tumhare saath woh time.
+          <br>
+          ✨💖
+        </p>
+      </div>
+
+      <div class="slideshow-controls" style="opacity: 1" bis_skin_checked="1">
+        <button id="startSlideshow" class="btn" style="display: flex">
+          <span>▶ Start Slideshow</span>
+        </button>
+        <button id="pauseSlideshow" class="btn" style="display: none">
+          <span>⏸ Pause Slideshow</span>
+        </button>
+      </div>
+
+      <div class="gallery-container" bis_skin_checked="1">
+        <div class="gallery" id="memoryGallery" bis_skin_checked="1">
+          <!-- Images will be dynamically loaded here from JavaScript -->
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: -2deg;
+              animation-delay: 0s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(-2.00003deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: -4deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="1.jpg" alt="Memory 1" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Yaha se apna safar suru hua tha as a friend. ham dono mile the 😂
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🌊
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 3deg;
+              animation-delay: 0.1s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: translate(0px, 50px) rotate(3.00023deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="2.jpg" alt="Memory 2" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Fir jane konsa jadu kiya madam ji ne ki ham khud nhi samjh paye or ab tak kosish me hi hai 
+              ki akhir kya kiya hoga..
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🌅
+                </text>
+              </svg>
+            </div>
+          </div>
+  
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 3deg;
+              animation-delay: 0.1s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: translate(0px, 50px) rotate(3.00023deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="3.jpg" alt="Memory 2" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Or fir jaha mile bss sukun sa mila yrr 😌 
+              yaha ham dusri baar mile the...
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🌅
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: -1deg;
+              animation-delay: 0.2s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(-0.99986deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: -2deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="4.jpg" alt="Memory 4" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Madam ji apne nisaan chorti hui. <br>
+              Bhut jadii kaatne ko dodti thi tum pehle se hi.. hmhm 😒
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🚗
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 2deg;
+              animation-delay: 0.3s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(2.00003deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 4deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="5.jpg" alt="Memory 5" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Ye jo smile hai na bss ispr hi to me fida ho gaya tha madam ji.
+              or mujhe yakeen hai esi hi smile abhi bhi hogi tumhare face pr. 😁 hain na ?
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🍕
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: -3deg;
+              animation-delay: 0.4s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(-3.00023deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: -6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="6.jpg" alt="Memory 6" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Dekh lo agr me aapko utha sakta hu...
+              to iska matlb hai ki me aapko utha ke fek bhi sakta hu.. 
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🏕️
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 1deg;
+              animation-delay: 0.5s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(0.99986deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 2deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="7.jpg" alt="Memory 6" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Pr chalo nhi fekunga tum bss ese hi gale se lagi rehna bachha.
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🎵
+                </text>
+              </svg>
+            </div>
+          </div>
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: -2deg;
+              animation-delay: 0s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(-2.00003deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: -4deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="1.jpg" alt="Memory 1" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Yaha se apna safar suru hua tha as a friend. ham dono mile the 😂
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🌊
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 3deg;
+              animation-delay: 0.1s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: translate(0px, 50px) rotate(3.00023deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="2.jpg" alt="Memory 2" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Fir jane konsa jadu kiya madam ji ne ki ham khud nhi samjh paye or ab tak kosish me hi hai 
+              ki akhir kya kiya hoga..
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🌅
+                </text>
+              </svg>
+            </div>
+          </div>
+  
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 3deg;
+              animation-delay: 0.1s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: translate(0px, 50px) rotate(3.00023deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="3.jpg" alt="Memory 2" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Or fir jaha mile bss sukun sa mila yrr 😌 
+              yaha ham dusri baar mile the...
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🌅
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+          
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: -1deg;
+              animation-delay: 0.2s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(-0.99986deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: -2deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="4.jpg" alt="Memory 4" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Madam ji apne nisaan chorti hui. <br>
+              Bhut jadii kaatne ko dodti thi tum pehle se hi.. hmhm 😒
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🚗
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 2deg;
+              animation-delay: 0.3s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(2.00003deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 4deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="5.jpg" alt="Memory 5" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Ye jo smile hai na bss ispr hi to me fida ho gaya tha madam ji.
+              or mujhe yakeen hai esi hi smile abhi bhi hogi tumhare face pr. 😁 hain na ?
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🍕
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: -3deg;
+              animation-delay: 0.4s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(-3.00023deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: -6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="6.jpg" alt="Memory 6" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Dekh lo agr me aapko utha sakta hu...
+              to iska matlb hai ki me aapko utha ke fek bhi sakta hu.. 
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🏕️
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 1deg;
+              animation-delay: 0.5s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(0.99986deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 2deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="7.jpg" alt="Memory 6" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Pr chalo nhi fekunga tum bss ese hi gale se lagi rehna bachha.
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🎵
+                </text>
+              </svg>
+            </div>
+          </div>
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: -2deg;
+              animation-delay: 0s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(-2.00003deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: -4deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="1.jpg" alt="Memory 1" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Yaha se apna safar suru hua tha as a friend. ham dono mile the 😂
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🌊
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 3deg;
+              animation-delay: 0.1s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: translate(0px, 50px) rotate(3.00023deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="2.jpg" alt="Memory 2" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Fir jane konsa jadu kiya madam ji ne ki ham khud nhi samjh paye or ab tak kosish me hi hai 
+              ki akhir kya kiya hoga..
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🌅
+                </text>
+              </svg>
+            </div>
+          </div>
+  
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 3deg;
+              animation-delay: 0.1s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: translate(0px, 50px) rotate(3.00023deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="3.jpg" alt="Memory 2" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Or fir jaha mile bss sukun sa mila yrr 😌 
+              yaha ham dusri baar mile the...
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🌅
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: -1deg;
+              animation-delay: 0.2s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(-0.99986deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: -2deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="4.jpg" alt="Memory 4" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Madam ji apne nisaan chorti hui. <br>
+              Bhut jadii kaatne ko dodti thi tum pehle se hi.. hmhm 😒
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🚗
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 2deg;
+              animation-delay: 0.3s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(2.00003deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 4deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="5.jpg" alt="Memory 5" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Ye jo smile hai na bss ispr hi to me fida ho gaya tha madam ji.
+              or mujhe yakeen hai esi hi smile abhi bhi hogi tumhare face pr. 😁 hain na ?
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🍕
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: -3deg;
+              animation-delay: 0.4s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(-3.00023deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: -6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="6.jpg" alt="Memory 6" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Dekh lo agr me aapko utha sakta hu...
+              to iska matlb hai ki me aapko utha ke fek bhi sakta hu.. 
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🏕️
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 1deg;
+              animation-delay: 0.5s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(0.99986deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 2deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="7.jpg" alt="Memory 6" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Pr chalo nhi fekunga tum bss ese hi gale se lagi rehna bachha.
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🎵
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: -2deg;
+              animation-delay: 0.6s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(-2.00003deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: -4deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="8.jpg" alt="Memory 7" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Pata ye bali ride yrr mujhe bhut achhi lagi thi aandhere me yrr ham tum or mosam bhi kitna pyara tha
+              or <br>Tum bhi mosam jesi..
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🏰
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: 2deg;
+              animation-delay: 0.7s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(2.00003deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 4deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="9.jpg" alt="Memory 8" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Yaar bachha ese hi saath rehna mere hamesha... 
+              <br>Lovee Youu...💕
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🏖️
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+          <div
+            class="memory-card visible"
+            style="
+              --rotate: -1deg;
+              animation-delay: 0.8s;
+              translate: none;
+              rotate: none;
+              scale: none;
+              box-shadow: rgba(255, 105, 180, 0.3) 0px 10px 25px;
+              transform: rotate(-0.99986deg);
+            "
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: -2deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="10.jpg" alt="Memory 9" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Dekho black me tum pyari to bhutl lagti ho, Pr 
+              <br>Ham dono jab saath ho only tab hi...🥱
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  💕
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+          <div
+            class="memory-card visible"
+            style="--rotate: 3deg; animation-delay: 0.9s"
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="11.jpg" alt="Memory 10" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Kabhi kabhi mera bachha simple me bhi bhut pyara lagta hai...
+              <br>
+              Oye achhi lag rahi ho samjhi na 🤨
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🎂
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+          <div
+            class="memory-card visible"
+            style="--rotate: 3deg; animation-delay: 0.9s"
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="12.jpg" alt="Memory 10" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Dekha ham log same color me kitne pyare lagte hai 
+              <br>
+              tabhi khta hu mujhse puch liya karo kya pehnna hai
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🎂
+                </text>
+              </svg>
+            </div>
+          </div>
+
+
+
+          <div
+            class="memory-card visible"
+            style="--rotate: 3deg; animation-delay: 0.9s"
+            bis_skin_checked="1"
+          >
+            <div
+              class="card-tape"
+              style="--rotate: 6deg"
+              bis_skin_checked="1"
+            ></div>
+            <img class="memory-img" src="13.jpg" alt="Memory 10" />
+            <div class="memory-caption" bis_skin_checked="1">
+              Ye din yrr bhut hi pyara din tha mere liye
+              tum sach me itni pyari lag rahi thi ki yrr 
+              mujhe lag raha tha ki kahi me puchhi na le lu 
+            </div>
+            <div class="card-sticker" bis_skin_checked="1">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="#ff6ec4"></circle>
+                <text
+                  x="50"
+                  y="65"
+                  font-family="Arial"
+                  font-size="40"
+                  text-anchor="middle"
+                  fill="white"
+                >
+                  🎂
+                </text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="navigation-buttons"
+        style="
+          translate: none;
+          rotate: none;
+          scale: none;
+          opacity: 1;
+          transform: translate(0px, 0px);
+        "
+        bis_skin_checked="1"
+      >
+        <button id="backButton" class="btn">
+          <span>← Back to Welcome</span>
+        </button>
+        <button id="nextButton" class="btn">
+          <span>✨ Next Surprise! ✨</span>
+        </button>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+
+    <script>
+      // Register ScrollTrigger plugin
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Memory data - replace placeholder images with your actual images and add your captions
+      const memories = [
+        {
+          image: "1.jpg",
+          caption:
+            "Bss itni hi pic dali nhi to pic to itni hai ki khatam na ho",
+          isGif: false,
+          rotationAngle: -2,
+          emoji: "🌊",
+        },
+      ];
+
+      // Create confetti elements
+      function createConfetti() {
+        const confettiContainer = document.getElementById("confetti-container");
+        const colors = ["#ff6ec4", "#a485ff", "#ff4e91", "#c175ff", "#75c6ff"];
+
+        for (let i = 0; i < 100; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti-piece";
+
+          // Random styles
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.width = Math.random() * 15 + 5 + "px";
+          confetti.style.height = Math.random() * 15 + 5 + "px";
+          confetti.style.background =
+            colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+          confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+          // Animation
+          const duration = Math.random() * 3 + 3;
+          const delay = Math.random() * 5;
+
+          confetti.style.animation = `floatDown ${duration}s ease-in ${delay}s infinite`;
+          confetti.style.opacity = Math.random();
+
+          confettiContainer.appendChild(confetti);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        createConfetti();
+
+        const galleryElement = document.getElementById("memoryGallery");
+        const startSlideshowBtn = document.getElementById("startSlideshow");
+        const pauseSlideshowBtn = document.getElementById("pauseSlideshow");
+        const backButton = document.getElementById("backButton");
+        const nextButton = document.getElementById("nextButton");
+
+        let slideshowInterval;
+        let currentSlide = 0;
+
+        // Generate memory cards
+        memories.forEach((memory, index) => {
+          const memoryCard = document.createElement("div");
+          memoryCard.className = "memory-card";
+          memoryCard.style.setProperty(
+            "--rotate",
+            `${memory.rotationAngle}deg`
+          );
+
+          const tapeElement = document.createElement("div");
+          tapeElement.className = "card-tape";
+          tapeElement.style.setProperty(
+            "--rotate",
+            `${memory.rotationAngle * 2}deg`
+          );
+
+          const imgElement = document.createElement("img");
+          imgElement.className = "memory-img";
+          imgElement.src = memory.image;
+          imgElement.alt = `Memory ${index + 1}`;
+
+          const captionElement = document.createElement("div");
+          captionElement.className = "memory-caption";
+          captionElement.textContent = memory.caption;
+
+          const stickerElement = document.createElement("div");
+          stickerElement.className = "card-sticker";
+          stickerElement.innerHTML = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="50" fill="#ff6ec4" />
+                    <text x="50" y="65" font-family="Arial" font-size="40" text-anchor="middle" fill="white">${memory.emoji}</text>
+                </svg>`;
+
+          memoryCard.appendChild(tapeElement);
+          memoryCard.appendChild(imgElement);
+          memoryCard.appendChild(captionElement);
+          memoryCard.appendChild(stickerElement);
+          galleryElement.appendChild(memoryCard);
+        });
+
+        // Make slideshow controls visible
+        document.querySelector(".slideshow-controls").style.opacity = "1";
+
+        // Intersection Observer to animate cards as they enter viewport
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.3 }
+        );
+
+        // Observe all memory cards
+        document.querySelectorAll(".memory-card").forEach((card) => {
+          observer.observe(card);
+
+          // Add animation delay for staggered effect
+          const index = Array.from(galleryElement.children).indexOf(card);
+          card.style.animationDelay = `${0.1 * index}s`;
+
+          // Make all cards visible initially
+          setTimeout(() => {
+            card.classList.add("visible");
+          }, 500 + index * 150);
+        });
+
+        // Fixed slideshow functionality
+        function startSlideshow() {
+          startSlideshowBtn.style.display = "none";
+          pauseSlideshowBtn.style.display = "flex";
+
+          // Clear any existing interval to avoid multiple slideshows
+          if (slideshowInterval) {
+            clearInterval(slideshowInterval);
+          }
+
+          slideshowInterval = setInterval(() => {
+            // Move to next slide
+            currentSlide = (currentSlide + 1) % memories.length;
+
+            // Calculate the scroll position of the current slide
+            const cards = galleryElement.querySelectorAll(".memory-card");
+            if (cards && cards.length > 0 && cards[currentSlide]) {
+              const cardRect = cards[currentSlide].getBoundingClientRect();
+              const galleryRect = galleryElement.getBoundingClientRect();
+
+              // Scroll to center the current card
+              galleryElement.scrollTo({
+                left:
+                  cards[currentSlide].offsetLeft -
+                  galleryRect.width / 2 +
+                  cardRect.width / 2,
+                behavior: "smooth",
+              });
+            }
+          }, 2000); // Change slide every 3 seconds
+        }
+
+        function pauseSlideshow() {
+          pauseSlideshowBtn.style.display = "none";
+          startSlideshowBtn.style.display = "flex";
+
+          // Clear interval to stop slideshow
+          if (slideshowInterval) {
+            clearInterval(slideshowInterval);
+            slideshowInterval = null;
+          }
+        }
+
+        // Event listeners for slideshow controls
+        startSlideshowBtn.addEventListener("click", startSlideshow);
+        pauseSlideshowBtn.addEventListener("click", pauseSlideshow);
+
+        // Event listeners for navigation buttons
+        backButton.addEventListener("click", function () {
+          window.location.href = "index.html"; // Adjust this to your welcome page URL
+        });
+
+        nextButton.addEventListener("click", function () {
+          window.location.href = "cake.html"; // Adjust this to your next surprise page URL
+        });
+
+        // Scroll animations with GSAP
+        gsap.from(".header", {
+          duration: 1,
+          y: -50,
+          opacity: 0,
+          ease: "back.out(1.7)",
+        });
+
+        gsap.from(".navigation-buttons", {
+          duration: 1,
+          y: 50,
+          opacity: 0,
+          delay: 0.5,
+          ease: "power3.out",
+        });
+
+        // Add animation to stickers
+        gsap.utils.toArray(".sticker").forEach((sticker) => {
+          gsap.to(sticker, {
+            rotation: "random(-20, 20)",
+            duration: "random(2, 4)",
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          });
+        });
+
+        // Create hover effect for memory cards
+        document.querySelectorAll(".memory-card").forEach((card) => {
+          card.addEventListener("mouseenter", function () {
+            gsap.to(this, {
+              scale: 1.05,
+              boxShadow: "0 15px 35px rgba(255, 105, 180, 0.5)",
+              duration: 0.3,
+            });
+          });
+
+          card.addEventListener("mouseleave", function () {
+            gsap.to(this, {
+              scale: 1,
+              boxShadow: "0 10px 25px rgba(255, 105, 180, 0.3)",
+              duration: 0.3,
+            });
+          });
+        });
+
+        // Auto scroll to show the gallery
+        setTimeout(() => {
+          const galleryContainer = document.querySelector(".gallery-container");
+          galleryContainer.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 2000);
+      });
+    </script>
+    
+    <style>
+      @media (max-width: 480px) {
+        .header h1 {
+          font-size: 2rem;
+        }
+        
+        .header p {
+          font-size: 0.9rem;
+          max-width: 90%;
+        }
+        
+        .memory-card {
+          width: 220px;
+          height: 290px;
+        }
+        
+        .memory-card-content h3 {
+          font-size: 16px;
+        }
+        
+        .memory-card-content p {
+          font-size: 14px;
+        }
+        
+        .sticker {
+          width: 40px;
+          height: 40px;
+        }
+        
+        .navigation-buttons {
+          flex-direction: column;
+          margin-top: 15px;
+          width: 90%;
+        }
+        
+        .btn {
+          width: 100%;
+          padding: 8px 12px;
+          font-size: 14px;
+          margin: 4px 0;
+        }
+      }
+    </style>
+
+    <div
+      id="loom-companion-mv3"
+      ext-id="liecbddmkiiihnedobmlmillhodjkdmb"
+      bis_skin_checked="1"
+    >
+      <div id="shadow-host-companion" bis_skin_checked="1"></div>
+    </div>
+  </body>
+</html>
